@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Albert Albertson</title>
+    <!-- Tailwind CSS -linkki -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+</head>
+<body class="bg-white font-sans text-gray-900">
+
+    <!-- Kiinteä navigaatiopalkki -->
+    <header class="bg-gray-700 text-white p-6 sticky top-0 z-50 shadow-lg">
+        <div class="container mx-auto flex justify-between items-center">
+            <div class="flex items-center space-x-3">
+                <!-- Hevosen ikoni Font Awesomesta ja nimi -->
+                <i class="fa-solid fa-horse fa-2x"></i>
+                <h1 class="text-3xl font-semibold">Albert Albertson</h1>
+            </div>
+            <nav>
+                <ul class="flex space-x-6">
+                    <li><a href="#contact" class="hover:text-gray-400 hidden md:block">Yhteystiedot</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Tekijän esittely ja kuva -->
+    <section id="about" class="bg-gray-100 py-16">
+        <div class="container mx-auto flex flex-col items-center text-center p-6">
+            <img src="https://picsum.photos/300/300" alt="Tekijän kuva" class="rounded-full mb-6 w-64 h-64 object-cover">
+            <h2 class="text-4xl font-semibold m-8 pb-4">Tervetuloa!</h2>
+            <p class="text-lg max-w-3xl mx-auto">Olen Albert Albertson, akateeminen tutkija ja kirjoittaja. Tältä sivustolta löydät julkaisemani artikkelit ja tutkimukset eri vuosilta.</p>
+        </div>
+    </section>
+
+    <!-- Tuoreimman julkaisun hero-osio -->
+    <section id="latest-publication" class="bg-gray-600 text-gray-100 py-16">
+        <div class="container mx-auto text-center p-6">
+            <h2 class="text-5xl font-bold mb-4 pb-12 text-teal-400">Uusin Julkaisuni</h2>
+            <div class="max-w-4xl mx-auto">
+                <h3 class="text-3xl font-semibold mb-4" id="latest-title"></h3>
+                <p class="text-xl mb-6" id="latest-description"></p>
+                <p class="text-lg mb-4" id="latest-authors"></p>
+                <a id="latest-download-link" href="" download class="inline-block bg-teal-400 text-black py-3 px-8 rounded-full text-lg hover:bg-teal-500">
+                    Lataa PDF 
+                </a>
+                <div class="mt-4">
+                    <p id="latest-download-count" class="text-gray-100"><i class="fas fa-download"></i> <span>0</span></p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Julkaisujen osio -->
+    <section id="publications" class="py-16 bg-gray-50">
+        <div class="container mx-auto text-center">
+            <h2 class="text-4xl font-semibold m-8 pb-12">Muut Julkaisuni</h2>
+            <div id="publications-list" class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-3 gap-8">
+                <!-- Julkaisukortit generoidaan JavaScriptin avulla -->
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // JSON-data julkaisujen tiedoista, jossa tekijöitä voi olla useita
+        const publications = [
+            {
+                title: "Tutkimus A",
+                year: 2025,
+                description: "Julkaisussa käsitellään... Tämän tutkimuksen avulla pyritään ymmärtämään...",
+                downloadLink: "julkaisu1.pdf",
+                downloadCount: 4,
+                authors: ["Albert Albertson", "Matti Meikäläinen"]
+            },
+            {
+                title: "Tutkimus B",
+                year: 2023,
+                description: "Julkaisussa tarkastellaan... Tämän tutkimuksen avulla pyritään ymmärtämään...",
+                downloadLink: "julkaisu2.pdf",
+                downloadCount: 63,
+                authors: ["Albert Albertson"]
+            },
+            {
+                title: "Tutkimus C",
+                year: 2022,
+                description: "Julkaisussa tutkitaan...",
+                downloadLink: "julkaisu3.pdf",
+                downloadCount: 357,
+                authors: ["Albert Albertson", "James Jameson"]
+            },
+            {
+                title: "Tutkimus D",
+                year: 2021,
+                description: "Artikkelissa käsitellään...",
+                downloadLink: "julkaisu4.pdf",
+                downloadCount: 57,
+                authors: ["Albert Albertson"]
+            },
+            {
+                title: "Tutkimus E",
+                year: 2020,
+                description: "Tässä tutkimuksessa käsitellään...",
+                downloadLink: "julkaisu5.pdf",
+                downloadCount: 246,
+                authors: ["Albert Albertson", "Kari Virtanen"]
+            }
+        ];
+
+        // Funktio, joka luo kortin julkaisun tiedoista
+        function createPublicationCard(publication) {
+            const card = document.createElement('div');
+            card.classList.add('bg-white', 'shadow-md', 'hover:shadow-lg', 'rounded-lg', 'p-6', 'transform', 'transition', 'duration-500', 'hover:scale-105');
+            
+            const title = document.createElement('h3');
+            title.classList.add('text-xl', 'font-semibold', 'mb-3');
+            title.textContent = `${publication.title} (${publication.year})`;
+            card.appendChild(title);
+
+            const description = document.createElement('p');
+            description.classList.add('text-gray-600', 'mb-4');
+            description.innerHTML = `${publication.description} `;
+            card.appendChild(description);
+
+            // Lisää tekijän tiedot korttiin
+            const authors = document.createElement('p');
+            authors.classList.add('text-gray-500', 'mb-4');
+            authors.innerHTML = `Tekijät: ${publication.authors.join(', ')}`;
+            card.appendChild(authors);
+
+            // Lisää Lataa PDF -painike myös muille julkaisuilla
+            const downloadButton = document.createElement('a');
+            downloadButton.href = publication.downloadLink;
+            downloadButton.download = true;
+            downloadButton.classList.add('inline-block', 'bg-teal-400', 'text-black', 'py-3', 'px-8', 'rounded-full', 'text-lg', 'mt-4', 'hover:bg-teal-500');
+            downloadButton.innerHTML = `Lataa PDF `;
+            card.appendChild(downloadButton);
+
+            const downloadCount = document.createElement('p');
+            downloadCount.classList.add('text-gray-500', 'mt-4');
+            downloadCount.innerHTML = ` <i class="fas fa-download"></i> <span>${publication.downloadCount}</span>`;
+            card.appendChild(downloadCount);
+
+            return card;
+        }
+
+        // Funktio, joka lisää kortit julkaisulistaan
+        function loadPublications() {
+            const publicationsList = document.getElementById('publications-list');
+            
+            // Tuoreimman julkaisun tiedot hero-osioon
+            const latestPublication = publications[0];
+            document.getElementById('latest-title').textContent = `${latestPublication.title} (${latestPublication.year})`;
+            document.getElementById('latest-description').textContent = latestPublication.description;
+            document.getElementById('latest-authors').innerHTML = `Tekijät: ${latestPublication.authors.join(', ')}`;
+            document.getElementById('latest-download-link').setAttribute('href', latestPublication.downloadLink);
+            
+            // Päivitetään tuoreimman julkaisun latauslaskuri aluksi datasta
+            const countElement = document.getElementById('latest-download-count').querySelector('span');
+            countElement.textContent = latestPublication.downloadCount;
+
+            // Ladataan muut julkaisut ilman tuoreinta
+            publications.slice(1).forEach(publication => {
+                const card = createPublicationCard(publication);
+                publicationsList.appendChild(card);
+            });
+
+            // Latauslaskuri tuoreelle julkaisulle
+            const downloadButton = document.getElementById('latest-download-link');
+            downloadButton.addEventListener('click', () => {
+                latestPublication.downloadCount++; // Kasvatetaan latausmäärää
+                countElement.textContent = latestPublication.downloadCount; // Päivitetään näkyvä arvo
+            });
+        }
+
+        // Ladataan julkaisut sivulle
+        loadPublications();
+    </script>
+
+    <!-- Footer: Yhteystiedot ja somelinkit -->
+    <footer id="contact" class="bg-gray-700 text-white py-8">
+        <div class="container mx-auto text-center">
+            <!-- Yhteystiedot -->
+            <div class="mb-6">
+                <p class="mb-2">Yhteystiedot:</p>
+                <p class="mb-2">etunimi.sukunimi@example.com</p>
+                <p class="mb-2">Puhelin: +358 40 123 4567</p>
+                <p class="mb-2">Osoite: Esimerkki katu 12, 00100 Helsinki</p>
+            </div>
+            
+            <!-- Somelinkit -->
+            <ul class="flex justify-center space-x-6">
+                <li>
+                    <a href="#" class="hover:text-teal-400"><i class="fab fa-twitter fa-2x"></i></a>
+                </li>
+                <li>
+                    <a href="#" class="hover:text-teal-400"><i class="fab fa-linkedin fa-2x"></i></a>
+                </li>
+            </ul>
+        </div>
+    </footer>
+</body>
+</html>
